@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greeting Card</title>
+    <style>
+        @font-face {
+            font-family: 'Graphik Arabic';
+            src: url('Graphik Arabic SemiBold.otf') format('opentype');
+            font-weight: bold;
+            font-style: normal;
+        }
+        
+        * {
+            box-sizing: border-box;
+            font-family: 'Graphik Arabic', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffffff;
+            text-align: center;
+            overflow: hidden;
+            padding: 10px;
+        }
+        
+        .container {
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            padding: 20px;
+            background: white;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .card-form input {
+            margin-bottom: 10px;
+            padding: 12px;
+            width: 100%;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            text-align: center;
+        }
+        
+        .card-form button {
+            padding: 12px;
+            background-color: #6fc1b2;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100%;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+
+        .preview canvas {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Eid Card</h1>
+        <div class="card-form">
+            <input type="text" id="nameInput" placeholder="Enter your name" oninput="updatePreview()">
+            <button onclick="generateCard()">Download Card</button>
+        </div>
+        <div class="preview" id="previewContainer">
+            <canvas id="previewCanvas"></canvas>
+        </div>
+    </div>
+    
+    <script>
+        let selectedDesign = "https://images.ctfassets.net/jrh3lrn7oql1/7a5oudcZMl63FO9CXh4ivu/f7c9f6dfcc4f447f2f1190b9f8d37e6b/Eid_Alfiter_2025_card.jpg";
+        let canvas = document.getElementById("previewCanvas");
+        let ctx = canvas.getContext("2d");
+        let image = new Image();
+        image.crossOrigin = "Anonymous";
+        image.src = selectedDesign;
+        image.onload = function () {
+            canvas.width = image.width;
+            canvas.height = image.height;
+            updatePreview();
+        };
+
+        function updatePreview() {
+            if (!selectedDesign) return;
+
+            let nameText = document.getElementById("nameInput").value;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+            // Adjust text size dynamically
+            let fontSize = Math.max(18, canvas.width * 0.04);
+            ctx.font = `bold ${fontSize}px 'Graphik Arabic', sans-serif`;
+            ctx.fillStyle = "#fff";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "bottom";
+
+            let textX = canvas.width / 2;
+            let textY = canvas.height - (canvas.height * 0.1);
+            ctx.fillText(nameText, textX, textY);
+        }
+
+        function generateCard() {
+            if (canvas.width === 0 || canvas.height === 0) {
+                alert("Please generate a preview first!");
+                return;
+            }
+
+            let link = document.createElement("a");
+            link.href = canvas.toDataURL("image/png", 1.0);
+            link.download = "Custom_Card.png";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html>
