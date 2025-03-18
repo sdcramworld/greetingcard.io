@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>بطاقة التهنئة</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@500&display=swap');
         
         * {
             box-sizing: border-box;
@@ -20,7 +20,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background-color: #f4f4f4;
+            background-color: #ffffff;
             text-align: center;
             overflow: hidden;
             padding: 10px;
@@ -43,7 +43,7 @@
             width: 100%;
             border-radius: 5px;
             border: 1px solid #ccc;
-            font-size: 18px;
+            font-size: 16px;
             text-align: center;
         }
         
@@ -85,22 +85,21 @@
         let image = new Image();
         image.crossOrigin = "Anonymous";
         image.src = selectedDesign;
-        image.onload = () => updatePreview();
+        image.onload = function () {
+            canvas.width = image.width;
+            canvas.height = image.height;
+            updatePreview();
+        };
 
         function updatePreview() {
             if (!selectedDesign) return;
 
             let nameText = document.getElementById("nameInput").value;
-            let maxCanvasWidth = Math.min(window.innerWidth * 0.9, 400); // Adaptive canvas width
-            let scaleFactor = maxCanvasWidth / image.width; // Maintain aspect ratio
-
-            canvas.width = maxCanvasWidth;
-            canvas.height = image.height * scaleFactor;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
             // Adjust text size dynamically
-            let fontSize = 24; 
+            let fontSize = Math.max(18, canvas.width * 0.04);
             ctx.font = `bold ${fontSize}px Cairo, sans-serif`;
             ctx.fillStyle = "#fff";
             ctx.textAlign = "center";
@@ -118,7 +117,7 @@
             }
 
             let link = document.createElement("a");
-            link.href = canvas.toDataURL("image/png");
+            link.href = canvas.toDataURL("image/png", 1.0);
             link.download = "Custom_Card.png";
             document.body.appendChild(link);
             link.click();
