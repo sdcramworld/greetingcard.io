@@ -5,11 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>بطاقة التهنئة</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@500&display=swap');
+        @font-face {
+            font-family: 'Graphik Arabic';
+            src: url('Graphik Arabic SemiBold.otf') format('opentype');
+            font-weight: bold;
+            font-style: normal;
+        }
         
         * {
             box-sizing: border-box;
-            font-family: 'Cairo', sans-serif;
+            font-family: 'Graphik Arabic', sans-serif;
             margin: 0;
             padding: 0;
         }
@@ -100,7 +105,7 @@
 
             // Adjust text size dynamically
             let fontSize = Math.max(18, canvas.width * 0.04);
-            ctx.font = `bold ${fontSize}px Cairo, sans-serif`;
+            ctx.font = `bold ${fontSize}px 'Graphik Arabic', sans-serif`;
             ctx.fillStyle = "#fff";
             ctx.textAlign = "center";
             ctx.textBaseline = "bottom";
