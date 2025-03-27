@@ -116,19 +116,24 @@
             ctx.fillText(nameText, textX, textY);
         }
 
-        function generateCard() {
-            if (canvas.width === 0 || canvas.height === 0) {
-                alert("يرجى إنشاء المعاينة أولاً!");
-                return;
-            }
+       function generateCard() {
+    if (canvas.width === 0 || canvas.height === 0) {
+        alert("يرجى إنشاء المعاينة أولاً!");
+        return;
+    }
 
-            let link = document.createElement("a");
-            link.href = canvas.toDataURL("image/png", 1.0);
-            link.download = "Custom_Card.png";
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
+    canvas.toBlob(function(blob) {
+        let link = document.createElement("a");
+        let url = URL.createObjectURL(blob);
+        link.href = url;
+        link.download = "Custom_Card.png";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+    }, "image/png");
+}
+
     </script>
 </body>
 </html>
