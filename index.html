@@ -5,20 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>بطاقة التهنئة</title>
     <style>
-                @font-face {
+        @font-face {
             font-family: 'Graphik Arabic';
             src: url('Graphik Arabic SemiBold.otf') format('opentype');
             font-weight: bold;
             font-style: normal;
         }
-        
+
         * {
             box-sizing: border-box;
             font-family: 'Graphik Arabic', sans-serif;
             margin: 0;
             padding: 0;
         }
-        
+
         body {
             min-height: 100vh;
             display: flex;
@@ -29,8 +29,9 @@
             text-align: center;
             overflow: hidden;
             padding: 10px;
+            font-size: 16px; /* Base font size for responsiveness */
         }
-        
+
         .container {
             border: 1px solid #ddd;
             border-radius: 15px;
@@ -40,20 +41,22 @@
             text-align: center;
             width: 100%;
             max-width: 600px;
+            overflow: hidden; /* Prevents content from spilling out */
+            margin: 0 auto;
         }
-        
+
         .card-form input {
             margin-bottom: 10px;
-            padding: 20px;
+            padding: 15px;
             width: 100%;
             border-radius: 5px;
             border: 1px solid #ccc;
             font-size: 16px;
             text-align: center;
         }
-        
+
         .card-form button {
-            padding: 20px;
+            padding: 15px;
             background-color: #6fc1b2;
             color: #fff;
             border: none;
@@ -74,16 +77,16 @@
 <body>
     <div class="container">
         <h1>بطاقة عيد الفطر</h1>
-       <h1>Eid Al-Fitr Card</h1>
+        <h1>Eid Al-Fitr Card</h1>
         <div class="card-form">
-            <input type="text" id="nameInput" placeholder=" Enter your Name | ادخل اسمك" oninput="updatePreview()">
+            <input type="text" id="nameInput" placeholder="Enter your Name | ادخل اسمك" oninput="updatePreview()">
             <button onclick="generateCard()">Download Card | تحميل البطاقة</button>
         </div>
         <div class="preview" id="previewContainer">
             <canvas id="previewCanvas"></canvas>
         </div>
     </div>
-    
+
     <script>
         let selectedDesign = "https://images.ctfassets.net/jrh3lrn7oql1/7a5oudcZMl63FO9CXh4ivu/f7c9f6dfcc4f447f2f1190b9f8d37e6b/Eid_Alfiter_2025_card.jpg";
         let canvas = document.getElementById("previewCanvas");
@@ -91,11 +94,20 @@
         let image = new Image();
         image.crossOrigin = "Anonymous";
         image.src = selectedDesign;
+
         image.onload = function () {
-            canvas.width = image.width;
-            canvas.height = image.height;
+            updateCanvasSize();
             updatePreview();
         };
+
+        window.addEventListener('resize', updateCanvasSize);
+
+        function updateCanvasSize() {
+            // Set canvas dimensions based on window size
+            canvas.width = window.innerWidth * 0.9;  // 90% of the viewport width
+            canvas.height = canvas.width * (image.height / image.width); // Maintain aspect ratio
+            updatePreview();
+        }
 
         function updatePreview() {
             if (!selectedDesign) return;
@@ -116,24 +128,23 @@
             ctx.fillText(nameText, textX, textY);
         }
 
-       function generateCard() {
-    if (canvas.width === 0 || canvas.height === 0) {
-        alert("يرجى إنشاء المعاينة أولاً!");
-        return;
-    }
+        function generateCard() {
+            if (canvas.width === 0 || canvas.height === 0) {
+                alert("يرجى إنشاء المعاينة أولاً!");
+                return;
+            }
 
-    canvas.toBlob(function(blob) {
-        let link = document.createElement("a");
-        let url = URL.createObjectURL(blob);
-        link.href = url;
-        link.download = "Custom_Card.png";
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(url);
-    }, "image/png");
-}
-
+            canvas.toBlob(function(blob) {
+                let link = document.createElement("a");
+                let url = URL.createObjectURL(blob);
+                link.href = url;
+                link.download = "Custom_Card.png";
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+            }, "image/png");
+        }
     </script>
 </body>
 </html>
