@@ -5,22 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>بطاقة التهنئة</title>
     <style>
-        @font-face {
+                @font-face {
             font-family: 'Graphik Arabic';
             src: url('Graphik Arabic SemiBold.otf') format('opentype');
             font-weight: bold;
             font-style: normal;
         }
-
+        
         * {
             box-sizing: border-box;
             font-family: 'Graphik Arabic', sans-serif;
             margin: 0;
             padding: 0;
         }
-
+        
         body {
-            min-height: 100vh; /* Height for the body */
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -29,25 +29,21 @@
             text-align: center;
             overflow: hidden;
             padding: 10px;
-            font-size: 16px; /* Base font size for responsiveness */
         }
-
+        
         .container {
             border: 1px solid #ddd;
             border-radius: 15px;
-            padding: 30px; /* Increased padding for more space */
+            padding: 20px;
             background: white;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
             text-align: center;
             width: 100%;
-            max-width: 800px;
-            overflow: hidden; /* Prevents content from spilling out */
-            margin: 0 auto;
-            height: 1700px; /* Let container height adjust automatically */
+            max-width: 600px;
         }
-
+        
         .card-form input {
-            margin-bottom: 15px; /* Increased margin for more spacing */
+            margin-bottom: 10px;
             padding: 20px;
             width: 100%;
             border-radius: 5px;
@@ -55,7 +51,7 @@
             font-size: 16px;
             text-align: center;
         }
-
+        
         .card-form button {
             padding: 20px;
             background-color: #6fc1b2;
@@ -65,31 +61,29 @@
             border-radius: 5px;
             width: 100%;
             font-size: 18px;
-            margin-top: 15px; /* Increased margin for more spacing */
+            margin-top: 10px;
         }
 
         .preview canvas {
-            width: auto;
+            width: 100%;
             height: auto;
             border-radius: 10px;
-            max-width: 350px; /* Fixed maximum width for the canvas */
-            padding-top:20px;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>بطاقة عيد الفطر</h1>
-        <h1>Eid Al-Fitr Card</h1>
+       <h1>Eid Al-Fitr Card</h1>
         <div class="card-form">
-            <input type="text" id="nameInput" placeholder="Enter your Name | ادخل اسمك" oninput="updatePreview()">
+            <input type="text" id="nameInput" placeholder=" Enter your Name | ادخل اسمك" oninput="updatePreview()">
             <button onclick="generateCard()">Download Card | تحميل البطاقة</button>
         </div>
         <div class="preview" id="previewContainer">
             <canvas id="previewCanvas"></canvas>
         </div>
     </div>
-
+    
     <script>
         let selectedDesign = "https://images.ctfassets.net/jrh3lrn7oql1/7a5oudcZMl63FO9CXh4ivu/f7c9f6dfcc4f447f2f1190b9f8d37e6b/Eid_Alfiter_2025_card.jpg";
         let canvas = document.getElementById("previewCanvas");
@@ -97,20 +91,11 @@
         let image = new Image();
         image.crossOrigin = "Anonymous";
         image.src = selectedDesign;
-
         image.onload = function () {
-            updateCanvasSize();
+            canvas.width = image.width;
+            canvas.height = image.height;
             updatePreview();
         };
-
-        window.addEventListener('resize', updateCanvasSize);
-
-        function updateCanvasSize() {
-            // Set canvas width to a fixed size (less than the previous width)
-            canvas.width = Math.min(window.innerWidth * 0.8, 500);  // 80% of the window width or 500px, whichever is smaller
-            canvas.height = canvas.width * (image.height / image.width); // Maintain aspect ratio
-            updatePreview();
-        }
 
         function updatePreview() {
             if (!selectedDesign) return;
@@ -137,16 +122,12 @@
                 return;
             }
 
-            canvas.toBlob(function(blob) {
-                let link = document.createElement("a");
-                let url = URL.createObjectURL(blob);
-                link.href = url;
-                link.download = "Custom_Card.png";
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                URL.revokeObjectURL(url);
-            }, "image/png");
+            let link = document.createElement("a");
+            link.href = canvas.toDataURL("image/png", 1.0);
+            link.download = "Custom_Card.png";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
     </script>
 </body>
