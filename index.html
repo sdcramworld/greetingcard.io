@@ -6,72 +6,75 @@
     <title>بطاقة التهنئة</title>
     <style>
         @font-face {
-            font-family: 'Graphik Arabic';
-            src: url('Graphik Arabic SemiBold.otf') format('opentype');
-            font-weight: bold;
-            font-style: normal;
-        }
+    font-family: 'Graphik Arabic';
+    src: url('Graphik Arabic SemiBold.otf') format('opentype');
+    font-weight: bold;
+    font-style: normal;
+}
 
-        * {
-            box-sizing: border-box;
-            font-family: 'Graphik Arabic', sans-serif;
-            margin: 0;
-            padding: 0;
-        }
+* {
+    box-sizing: border-box;
+    font-family: 'Graphik Arabic', sans-serif;
+    margin: 0;
+    padding: 0;
+}
 
-        body {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background-color: #ffffff;
-            text-align: center;
-            overflow: hidden;
-            padding: 10px;
-            font-size: 16px; /* Base font size for responsiveness */
-        }
+body {
+    min-height: 120vh; /* Increased height for body */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    text-align: center;
+    overflow: hidden;
+    padding: 10px;
+    font-size: 16px; /* Base font size for responsiveness */
+}
 
-        .container {
-            border: 1px solid #ddd;
-            border-radius: 15px;
-            padding: 20px;
-            background: white;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            width: 100%;
-            max-width: 600px;
-            overflow: hidden; /* Prevents content from spilling out */
-            margin: 0 auto;
-        }
+.container {
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    padding: 30px; /* Increased padding for more space */
+    background: white;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%;
+    max-width: 600px;
+    overflow: hidden; /* Prevents content from spilling out */
+    margin: 0 auto;
+    height: auto; /* Let container height adjust automatically */
+}
 
-        .card-form input {
-            margin-bottom: 10px;
-            padding: 15px;
-            width: 100%;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            font-size: 16px;
-            text-align: center;
-        }
+.card-form input {
+    margin-bottom: 15px; /* Increased margin for more spacing */
+    padding: 20px;
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    text-align: center;
+}
 
-        .card-form button {
-            padding: 15px;
-            background-color: #6fc1b2;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-            width: 100%;
-            font-size: 18px;
-            margin-top: 10px;
-        }
+.card-form button {
+    padding: 20px;
+    background-color: #6fc1b2;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100%;
+    font-size: 18px;
+    margin-top: 15px; /* Increased margin for more spacing */
+}
 
-        .preview canvas {
-            width: 100%;
-            height: auto;
-            border-radius: 10px;
-        }
+.preview canvas {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    max-height: 80vh; /* Limit the height of the canvas to a percentage of the viewport */
+}
+
     </style>
 </head>
 <body>
