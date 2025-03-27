@@ -20,7 +20,7 @@
         }
 
         body {
-            min-height: 100vh; /* Increased height for body */
+            min-height: 100vh; /* Height for the body */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -40,10 +40,10 @@
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
             text-align: center;
             width: 100%;
-            max-width: 600px;
+            max-width: 800px;
             overflow: hidden; /* Prevents content from spilling out */
             margin: 0 auto;
-            height: auto; /* Let container height adjust automatically */
+            height: 1700px; /* Let container height adjust automatically */
         }
 
         .card-form input {
@@ -69,10 +69,11 @@
         }
 
         .preview canvas {
-            width: 100%;
+            width: auto;
             height: auto;
             border-radius: 10px;
-            max-height: 90vh; /* Increase height for canvas to 90% of the viewport */
+            max-width: 400px; /* Fixed maximum width for the canvas */
+            padding-top:20px;
         }
     </style>
 </head>
@@ -105,8 +106,8 @@
         window.addEventListener('resize', updateCanvasSize);
 
         function updateCanvasSize() {
-            // Set canvas dimensions based on window size
-            canvas.width = window.innerWidth * 0.9;  // 90% of the viewport width
+            // Set canvas width to a fixed size (less than the previous width)
+            canvas.width = Math.min(window.innerWidth * 0.8, 500);  // 80% of the window width or 500px, whichever is smaller
             canvas.height = canvas.width * (image.height / image.width); // Maintain aspect ratio
             updatePreview();
         }
