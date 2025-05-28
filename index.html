@@ -37,20 +37,23 @@
     padding: 20px;
     background: white;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    text-align: left; /* changed from center */
+    text-align: center; /* changed from center */
     width: 100%;
     max-width: 600px;
     color: black; /* added text color */
         }       
         .card-form input {
-            margin-bottom: 10px;
-            padding: 20px;
-            width: 100%;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            font-size: 16px;
-            text-align: center;
-        }
+    margin-bottom: 10px;
+    padding: 20px;
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    text-align: left; /* changed from center to left */
+    color: black;      /* make the input text black */
+    direction: rtl;    /* optional: for proper Arabic alignment */
+}
+}
         
         .card-form button {
             padding: 20px;
