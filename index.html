@@ -32,16 +32,16 @@
         }
         
         .container {
-            border: 1px solid #ddd;
-            border-radius: 15px;
-            padding: 20px;
-            background: white;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            width: 100%;
-            max-width: 600px;
-        }
-        
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    padding: 20px;
+    background: white;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    text-align: left; /* changed from center */
+    width: 100%;
+    max-width: 600px;
+    color: black; /* added text color */
+        }       
         .card-form input {
             margin-bottom: 10px;
             padding: 20px;
@@ -85,7 +85,7 @@
     </div>
     
     <script>
-        let selectedDesign = "https://images.ctfassets.net/jrh3lrn7oql1/ftRhYaYnYd0LGy2OwCZu4/15500fdd440e6f54c82a2a7aa3340e07/Eid_Alfiter_2025_card.jpg";
+        let selectedDesign = "https://images.ctfassets.net/jrh3lrn7oql1/4F0QSuUUpiKdOC2UGiiIsR/61a8a633a7e8d3453b375e94783e7041/Cards_Al_-Hajj_2025.jpg";
         let canvas = document.getElementById("previewCanvas");
         let ctx = canvas.getContext("2d");
         let image = new Image();
