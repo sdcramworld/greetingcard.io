@@ -107,10 +107,10 @@
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
-    // Fixed font size to 18px
-    let fontSize = 18;
+    // Use fixed font size of 40px
+    let fontSize = 40;
     ctx.font = `bold ${fontSize}px 'Graphik Arabic', sans-serif`;
-    ctx.fillStyle = "#000"; // black text
+    ctx.fillStyle = "#000";
     ctx.textAlign = "center";
     ctx.textBaseline = "bottom";
 
@@ -118,6 +118,7 @@
     let textY = canvas.height - 20;
     ctx.fillText(nameText, textX, textY);
 }
+
 
 
         function generateCard() {
