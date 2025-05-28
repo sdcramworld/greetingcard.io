@@ -111,11 +111,11 @@
             let fontSize = Math.max(20, canvas.width * 0.04);
             ctx.font = `bold ${fontSize}px 'Graphik Arabic', sans-serif`;
             ctx.fillStyle = "#000"; // black text
-            ctx.textAlign = "left";
-            ctx.textBaseline = "middle";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "bottom";
 
-            let textX = canvas.width * 0.05; // 5% from the left
-            let textY = canvas.height / 2;   // vertical center
+            let textX = canvas.width / 2;
+            let textY = canvas.height - 40; // 40px from bottom
             ctx.fillText(nameText, textX, textY);
         }
 
