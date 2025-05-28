@@ -5,20 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>بطاقة التهنئة</title>
     <style>
-                @font-face {
+        @font-face {
             font-family: 'Graphik Arabic';
             src: url('Graphik Arabic SemiBold.otf') format('opentype');
             font-weight: bold;
             font-style: normal;
         }
-        
+
         * {
             box-sizing: border-box;
             font-family: 'Graphik Arabic', sans-serif;
             margin: 0;
             padding: 0;
         }
-        
+
         body {
             min-height: 100vh;
             display: flex;
@@ -30,41 +30,41 @@
             overflow: hidden;
             padding: 10px;
         }
-        
+
         .container {
-    border: 1px solid #ddd;
-    border-radius: 15px;
-    padding: 20px;
-    background: white;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    text-align: center; /* changed from center */
-    width: 100%;
-    max-width: 600px;
-    color: black; /* added text color */
-        }       
-        .card-form input {
-    margin-bottom: 10px;
-    padding: 20px;
-    width: 100%;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 16px;
-    text-align: left; /* changed from center to left */
-    color: black;      /* make the input text black */
-    direction: rtl;    /* optional: for proper Arabic alignment */
-}
-}
-        
-        .card-form button {
+            border: 1px solid #ddd;
+            border-radius: 15px;
             padding: 20px;
-            background-color: #6fc1b2;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
+            background: white;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
             width: 100%;
-            font-size: 18px;
+            max-width: 600px;
+            color: black;
+        }
+
+        .card-form input {
+            margin-bottom: 10px;
+            padding: 20px;
+            width: 100%;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            text-align: left;
+            color: black;
+            direction: rtl;
+        }
+
+        .card-form button {
+            all: unset;
+            padding: 10px 20px;
+            background: #eee;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
             margin-top: 10px;
+            font-size: 16px;
+            text-align: center;
         }
 
         .preview canvas {
@@ -76,8 +76,8 @@
 </head>
 <body>
     <div class="container">
-        <h1>بطاقة عيد الفطر</h1>
-       <h1>Eid Al-Fitr Card</h1>
+        <h1>بطاقة عيد الأضحى</h1>
+        <h1>Eid Al-Adha Card</h1>
         <div class="card-form">
             <input type="text" id="nameInput" placeholder=" Enter your Name | ادخل اسمك" oninput="updatePreview()">
             <button onclick="generateCard()">Download Card | تحميل البطاقة</button>
@@ -86,7 +86,7 @@
             <canvas id="previewCanvas"></canvas>
         </div>
     </div>
-    
+
     <script>
         let selectedDesign = "https://images.ctfassets.net/jrh3lrn7oql1/4F0QSuUUpiKdOC2UGiiIsR/61a8a633a7e8d3453b375e94783e7041/Cards_Al_-Hajj_2025.jpg";
         let canvas = document.getElementById("previewCanvas");
@@ -110,12 +110,12 @@
             // Adjust text size dynamically
             let fontSize = Math.max(20, canvas.width * 0.04);
             ctx.font = `bold ${fontSize}px 'Graphik Arabic', sans-serif`;
-            ctx.fillStyle = "#fff";
-            ctx.textAlign = "center";
-            ctx.textBaseline = "bottom";
+            ctx.fillStyle = "#000"; // black text
+            ctx.textAlign = "left";
+            ctx.textBaseline = "middle";
 
-            let textX = canvas.width / 2;
-            let textY = canvas.height - (canvas.height * 0.1);
+            let textX = canvas.width * 0.05; // 5% from the left
+            let textY = canvas.height / 2;   // vertical center
             ctx.fillText(nameText, textX, textY);
         }
 
