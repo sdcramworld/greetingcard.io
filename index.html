@@ -53,6 +53,7 @@
             text-align: left;
             color: black;
             direction: rtl;
+            margin-bottom: 10px;
         }
 
         .card-form button {
@@ -65,27 +66,34 @@
             margin-top: 10px;
             font-size: 16px;
             text-align: center;
+            margin-bottom: 10px;
         }
 
         .preview canvas {
             width: 100%;
             height: auto;
             border-radius: 10px;
+            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>بطاقة عيد الأضحى</h1>
-        <h1>Eid Al-Adha Card</h1>
-        <div class="card-form">
-            <input type="text" id="nameInput" placeholder=" Enter your Name | ادخل اسمك" oninput="updatePreview()">
-            <button onclick="generateCard()">Download Card | تحميل البطاقة</button>
-        </div>
-        <div class="preview" id="previewContainer">
-            <canvas id="previewCanvas"></canvas>
-        </div>
+    <h1>بطاقة عيد الأضحى</h1>
+    <h1>Eid Al-Adha Card</h1>
+
+    <!-- 🟢 1. Preview First -->
+    <div class="preview" id="previewContainer">
+        <canvas id="previewCanvas"></canvas>
     </div>
+
+    <!-- 🟢 2. Input and Button After -->
+    <div class="card-form">
+        <input type="text" id="nameInput" placeholder=" Enter your Name | ادخل اسمك" oninput="updatePreview()">
+        <button onclick="generateCard()">Download Card | تحميل البطاقة</button>
+    </div>
+</div>
+
 
     <script>
         let selectedDesign = "https://images.ctfassets.net/jrh3lrn7oql1/4F0QSuUUpiKdOC2UGiiIsR/6224d9dab9a47a01ec9e3436a615a00b/Greeting_card.jpeg";
