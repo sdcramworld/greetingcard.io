@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>بطاقة التهنئة</title>
     <style>
-        /* 1. Define the font family correctly */
         @font-face {
             font-family: 'NotoKufiArabic';
             src: url('NotoKufiArabic-Bold.ttf') format('truetype');
@@ -15,7 +14,6 @@
 
         * {
             box-sizing: border-box;
-            /* 2. Applied the font name here */
             font-family: 'NotoKufiArabic', sans-serif;
             margin: 0;
             padding: 0;
@@ -104,7 +102,6 @@
         image.onload = function () {
             canvas.width = image.width;
             canvas.height = image.height;
-            // Ensure font is loaded before first draw
             document.fonts.ready.then(updatePreview);
         };
 
@@ -115,20 +112,27 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
-            let fontSize = 37;
-            // 3. Updated font family in Canvas
+            let fontSize = 45; // Slightly larger font for better visibility
             ctx.font = `bold ${fontSize}px 'NotoKufiArabic'`;
-            ctx.fillStyle = "#000";
+            
+            // 1. Set text color to White
+            ctx.fillStyle = "#ffffff"; 
+            
             ctx.textAlign = "center";
             ctx.textBaseline = "bottom";
 
             let textX = canvas.width / 2;
             
-            /* 4. Moved the text up. 
-               Changed from 'height - 20' to 'height - 60'. 
-               Increase the 60 to move it even higher. */
-            let textY = canvas.height - 60; 
+            // 2. Moved up significantly (120px from the bottom)
+            // Increase this number to move it even higher
+            let textY = canvas.height - 120; 
             
+            // Optional: Adding a soft shadow to make white text pop on light backgrounds
+            ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
+            ctx.shadowBlur = 4;
+            ctx.shadowOffsetX = 2;
+            ctx.shadowOffsetY = 2;
+
             ctx.fillText(nameText, textX, textY);
         }
 
