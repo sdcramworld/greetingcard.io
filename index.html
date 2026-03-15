@@ -5,16 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>بطاقة التهنئة</title>
     <style>
+        /* 1. Define the font family correctly */
         @font-face {
-            font-family: 'Graphik Arabic';
-            src: url('Graphik Arabic SemiBold.otf') format('opentype');
+            font-family: 'NotoKufiArabic';
+            src: url('NotoKufiArabic-Bold.ttf') format('truetype');
             font-weight: bold;
             font-style: normal;
         }
 
         * {
             box-sizing: border-box;
-            font-family: 'Graphik Arabic', sans-serif;
+            /* 2. Applied the font name here */
+            font-family: 'NotoKufiArabic', sans-serif;
             margin: 0;
             padding: 0;
         }
@@ -53,7 +55,6 @@
             text-align: center;
             color: black;
             direction: rtl;
-            margin-bottom: 10px;
         }
 
         .card-form button {
@@ -79,21 +80,18 @@
 </head>
 <body>
     <div class="container">
-    <h1>بطاقة عيد الفطر</h1>
-    <h1>Eid Al-Fits Card</h1>
+        <h1>بطاقة عيد الفطر</h1>
+        <h1>Eid Al-Fitr Card</h1>
 
-    <!-- 🟢 1. Preview First -->
-    <div class="preview" id="previewContainer">
-        <canvas id="previewCanvas"></canvas>
+        <div class="preview" id="previewContainer">
+            <canvas id="previewCanvas"></canvas>
+        </div>
+
+        <div class="card-form">
+            <input type="text" id="nameInput" placeholder=" ادخل اسمك | Enter your Name " oninput="updatePreview()">
+            <button onclick="generateCard()">Download Card | تحميل البطاقة</button>
+        </div>
     </div>
-
-    <!-- 🟢 2. Input and Button After -->
-    <div class="card-form">
-        <input type="text" id="nameInput" placeholder="  ادخل اسمك | Enter your Name " oninput="updatePreview()">
-        <button onclick="generateCard()">Download Card | تحميل البطاقة</button>
-    </div>
-</div>
-
 
     <script>
         let selectedDesign = "https://images.ctfassets.net/jrh3lrn7oql1/6J4gHRdUIsSBnTQrsGnkgm/ec5738188d97079d142fe816768e8378/Eid_Alfiter_cards.jpg";
@@ -102,32 +100,37 @@
         let image = new Image();
         image.crossOrigin = "Anonymous";
         image.src = selectedDesign;
+
         image.onload = function () {
             canvas.width = image.width;
             canvas.height = image.height;
-            updatePreview();
+            // Ensure font is loaded before first draw
+            document.fonts.ready.then(updatePreview);
         };
 
         function updatePreview() {
-    if (!selectedDesign) return;
+            if (!selectedDesign) return;
 
-    let nameText = document.getElementById("nameInput").value;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+            let nameText = document.getElementById("nameInput").value;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
-    // Use fixed font size of 40px
-    let fontSize = 37;
-    ctx.font = `bold ${fontSize}px 'Graphik Arabic', sans-serif`;
-    ctx.fillStyle = "#000";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "bottom";
+            let fontSize = 37;
+            // 3. Updated font family in Canvas
+            ctx.font = `bold ${fontSize}px 'NotoKufiArabic'`;
+            ctx.fillStyle = "#000";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "bottom";
 
-    let textX = canvas.width / 2;
-    let textY = canvas.height - 20;
-    ctx.fillText(nameText, textX, textY);
-}
-
-
+            let textX = canvas.width / 2;
+            
+            /* 4. Moved the text up. 
+               Changed from 'height - 20' to 'height - 60'. 
+               Increase the 60 to move it even higher. */
+            let textY = canvas.height - 60; 
+            
+            ctx.fillText(nameText, textX, textY);
+        }
 
         function generateCard() {
             if (canvas.width === 0 || canvas.height === 0) {
