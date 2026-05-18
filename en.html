@@ -20,116 +20,128 @@
         }
 
         body {
-            min-height: 100vh;
+            /* جعل الارتفاع ثابتاً لمنع السكرول */
+            height: 100vh;
+            width: 100vw;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            background-color: #f9f9f9;
+            background-color: #ffffff; /* خلفية بيضاء بدون لون رمادي */
             text-align: center;
-            padding: 20px;
+            overflow: hidden; /* منع السكرول نهائياً */
+            padding: 10px;
         }
 
         .container {
-            border: 1px solid #ddd;
-            border-radius: 15px;
-            padding: 20px;
-            background: white;
-            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 600px;
+            max-width: 500px; /* تصغير الحجم قليلاً ليتناسب مع الشاشات */
+            max-height: 95vh; /* التأكد أن الحاوية لا تتعدى ارتفاع الشاشة */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
-        /* --- تنسيق معرض الصور (التصاميم) --- */
+        h2, h3 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        /* --- تنسيق معرض الصور --- */
         .design-selector {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
         }
 
         .design-option {
-            width: 100px;
-            height: 140px; /* تناسب شكل البطاقة الطولي */
-            border-radius: 10px;
+            width: 70px; /* حجم أصغر للخيارات لتوفير مساحة */
+            height: 100px;
+            border-radius: 8px;
             cursor: pointer;
-            border: 3px solid transparent;
+            border: 2px solid transparent;
             transition: all 0.3s ease;
             object-fit: cover;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
-        /* تمييز الصورة المختارة */
         .design-option.active {
             border-color: #7BDECA;
             transform: scale(1.05);
-            box-shadow: 0 4px 10px rgba(0,123,255,0.3);
+            box-shadow: 0 0 10px rgba(123, 222, 202, 0.5);
+        }
+
+        /* --- تنسيق المعاينة --- */
+        .preview {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            overflow: hidden;
         }
 
         .preview canvas {
-            width: 100%;
-            height: auto;
+            max-width: 100%;
+            max-height: 50vh; /* تحديد ارتفاع اللوحة لكي لا تسبب سكرول */
             border-radius: 10px;
-            margin-bottom: 20px;
             border: 1px solid #eee;
+            object-fit: contain;
+        }
+
+        /* --- تنسيق النماذج --- */
+        .card-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .card-form input {
-            margin-bottom: 15px;
-            padding: 15px;
-            width: 100%;
+            margin-bottom: 10px;
+            padding: 12px;
+            width: 50%;
             border-radius: 8px;
             border: 1px solid #ccc;
-            font-size: 16px;
+            font-size: 14px;
             text-align: center;
             direction: rtl;
         }
 
-      .card-form button {
-            /* التنسيق الأساسي */
-            padding: 10px 30px;      /* مسافات داخلية متوازنة */
-            background: #e0e0e0;     /* لون رمادي فاتح */
-            color: #000000;          /* نص باللون الأسود */
-            border: 1px solid #ccc;  /* إطار بسيط لتعريف الحواف */
-            border-radius: 8px;      /* زوايا منحنية */
+        .card-form button {
+            padding: 10px 25px;
+            background: #e0e0e0;
+            color: #000000;
+            border: 1px solid #ccc;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: bold;
-            
-            /* تعديل الحجم والعرض */
-            width: auto;             /* إلغاء العرض الكامل (100%) */
-            min-width: 150px;        /* تحديد أقل عرض ممكن لضمان شكل مرتب */
-            display: inline-block;   /* للسماح للزر بأخذ حجم محتواه فقط */
-            
-            transition: all 0.3s ease; /* تأثير ناعم عند الانتقال */
+            width: auto;
+            min-width: 150px;
+            transition: all 0.3s ease;
         }
 
         .card-form button:hover {
-            background: #a9a9a9;     /* رمادي غامق عند مرور الماوس (Hover) */
-            color: #000000;          /* الحفاظ على لون النص أسود */
-            border-color: #888;      /* تغميق الإطار قليلاً عند الهوفر */
+            background: #a9a9a9;
+            border-color: #888;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-       <h2 style="margin-bottom: 10px;">بطاقة عيد الاضحى<br> Eid Al-Adha Card</h2>
-        <h3 style="margin-bottom: 10px;">Select the card design | اختر تصميم البطاقة</h3>
+        <h2>بطاقة عيد الأضحى <br> Eid Al-Adha</h2>
+        <h3>اختر التصميم | Select Design</h3>
         
         <div class="design-selector" id="designSelector">
             <img src="https://images.ctfassets.net/jrh3lrn7oql1/514XAQipKfC5tojDBSOssg/d36aca13ca3be5dd225def65f827a679/Eid_Al-Adha_2026_card_1.jpg" 
                  class="design-option active" 
-                 onclick="selectDesign(this, this.src)" 
-                 alt="Design 1">
+                 onclick="selectDesign(this, this.src)">
             
             <img src="https://images.ctfassets.net/jrh3lrn7oql1/5KQJReyJA5jXUsIroa1VEb/461effb16220eaf1891f309dd7829aca/Eid_Al-Adha_2026_card_2.jpg" 
                  class="design-option" 
-                 onclick="selectDesign(this, this.src)" 
-                 alt="Design 2">
-                 
-            </div>
+                 onclick="selectDesign(this, this.src)">
+        </div>
 
         <div class="preview">
             <canvas id="previewCanvas"></canvas>
@@ -137,7 +149,7 @@
 
         <div class="card-form">
             <input type="text" id="nameInput" placeholder="ادخل اسمك | Enter your Name" oninput="updatePreview()">
-            <button onclick="generateCard()">Download Card | تحميل البطاقة  </button>
+            <button onclick="generateCard()">تحميل البطاقة | Download</button>
         </div>
     </div>
 
@@ -147,14 +159,9 @@
         let image = new Image();
         image.crossOrigin = "Anonymous";
 
-        // وظيفة اختيار التصميم
         function selectDesign(element, src) {
-            // إزالة كلاس active من جميع الصور
             document.querySelectorAll('.design-option').forEach(img => img.classList.remove('active'));
-            // إضافة الكلاس للصورة المحددة حالياً
             element.classList.add('active');
-            
-            // تغيير مصدر الصورة وتحديث اللوحة
             image.src = src;
         }
 
@@ -169,18 +176,13 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
-            // إعدادات النص
             let fontSize = 65; 
             ctx.font = `bold ${fontSize}px 'NotoKufiArabic'`;
             ctx.fillStyle = "#000000";
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
 
-            // إضافة ظل للنص
-            ctx.shadowColor = "rgba(0, 0, 0, 0.4)";
-            ctx.shadowBlur = 5;
-            
-            // مكان النص (يمكنك تعديل الـ 180 حسب ارتفاع البطاقة الجديد)
+            ctx.shadowColor = "transparent"; // إزالة الظل ليكون التصميم أنظف
             ctx.fillText(nameText, canvas.width / 2, canvas.height - 180);
         }
 
@@ -191,10 +193,9 @@
             link.click();
         }
 
-        // تشغيل التصميم الأول عند البدء
         window.onload = () => {
             const firstDesign = document.querySelector('.design-option');
-            selectDesign(firstDesign, firstDesign.src);
+            if(firstDesign) selectDesign(firstDesign, firstDesign.src);
         };
     </script>
 </body>
