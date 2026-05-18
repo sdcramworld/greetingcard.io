@@ -174,7 +174,7 @@
             ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
             // --- إعدادات الخط (تم تكبير الحجم بناءً على طلبك) ---
-            let fontSize = 100; 
+            let fontSize = 80; 
             let lineHeight = 100; 
             ctx.font = `bold ${fontSize}px 'NotoKufiArabic'`;
             ctx.fillStyle = currentColor;
@@ -182,7 +182,7 @@
             ctx.textBaseline = "bottom";
 
             // --- الإحداثيات المستخرجة من صورك المرفقة ---
-            let marginRight = 200;   // المسافة من حافة اليمين لتجنب الأطراف
+            let marginRight = 180;   // المسافة من حافة اليمين لتجنب الأطراف
             let marginBottom = 450; // رفعه عن القاع ليكون فوق نص "إحدى شركات الصندوق"
 
             let lines = fullText.split("-");
