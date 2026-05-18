@@ -25,10 +25,9 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background-color: #ffffff;
+            background-color: #f9f9f9;
             text-align: center;
-            overflow: hidden;
-            padding: 10px;
+            padding: 20px;
         }
 
         .container {
@@ -36,36 +35,36 @@
             border-radius: 15px;
             padding: 20px;
             background: white;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
             width: 100%;
             max-width: 600px;
-            color: black;
         }
 
-        .card-form input {
-            margin-bottom: 10px;
-            padding: 20px;
-            width: 100%;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            font-size: 16px;
-            text-align: center;
-            color: black;
-            direction: rtl;
+        /* --- تنسيق معرض الصور (التصاميم) --- */
+        .design-selector {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
         }
 
-        .card-form button {
-            all: unset;
-            padding: 10px 20px;
-            background: #eee;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+        .design-option {
+            width: 100px;
+            height: 140px; /* تناسب شكل البطاقة الطولي */
+            border-radius: 10px;
             cursor: pointer;
-            margin-top: 10px;
-            font-size: 16px;
-            text-align: center;
-            margin-bottom: 10px;
+            border: 3px solid transparent;
+            transition: all 0.3s ease;
+            object-fit: cover;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        /* تمييز الصورة المختارة */
+        .design-option.active {
+            border-color: #007bff;
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(0,123,255,0.3);
         }
 
         .preview canvas {
@@ -73,82 +72,121 @@
             height: auto;
             border-radius: 10px;
             margin-bottom: 20px;
+            border: 1px solid #eee;
+        }
+
+        .card-form input {
+            margin-bottom: 15px;
+            padding: 15px;
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            text-align: center;
+            direction: rtl;
+        }
+
+        .card-form button {
+            padding: 12px 25px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            width: 100%;
+            transition: background 0.3s;
+        }
+
+        .card-form button:hover {
+            background: #218838;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>بطاقة عيد الفطر</h1>
-        <h1>Eid Al-Fitr Card</h1>
 
-        <div class="preview" id="previewContainer">
+    <div class="container">
+        <h2 style="margin-bottom: 10px;">اختر تصميم البطاقة</h2>
+        
+        <div class="design-selector" id="designSelector">
+            <img src="https://images.ctfassets.net/jrh3lrn7oql1/6J4gHRdUIsSBnTQrsGnkgm/ec5738188d97079d142fe816768e8378/Eid_Alfiter_cards.jpg" 
+                 class="design-option active" 
+                 onclick="selectDesign(this, this.src)" 
+                 alt="Design 1">
+            
+            <img src="رابط_الصورة_الثانية_هنا.jpg" 
+                 class="design-option" 
+                 onclick="selectDesign(this, this.src)" 
+                 alt="Design 2">
+                 
+            </div>
+
+        <div class="preview">
             <canvas id="previewCanvas"></canvas>
         </div>
 
         <div class="card-form">
-            <input type="text" id="nameInput" placeholder=" ادخل اسمك | Enter your Name " oninput="updatePreview()">
-            <button onclick="generateCard()">Download Card | تحميل البطاقة</button>
+            <input type="text" id="nameInput" placeholder="ادخل الاسم ليظهر على البطاقة" oninput="updatePreview()">
+            <button onclick="generateCard()">تحميل البطاقة بجودة عالية</button>
         </div>
     </div>
 
     <script>
-        let selectedDesign = "https://images.ctfassets.net/jrh3lrn7oql1/6J4gHRdUIsSBnTQrsGnkgm/ec5738188d97079d142fe816768e8378/Eid_Alfiter_cards.jpg";
         let canvas = document.getElementById("previewCanvas");
         let ctx = canvas.getContext("2d");
         let image = new Image();
         image.crossOrigin = "Anonymous";
-        image.src = selectedDesign;
+
+        // وظيفة اختيار التصميم
+        function selectDesign(element, src) {
+            // إزالة كلاس active من جميع الصور
+            document.querySelectorAll('.design-option').forEach(img => img.classList.remove('active'));
+            // إضافة الكلاس للصورة المحددة حالياً
+            element.classList.add('active');
+            
+            // تغيير مصدر الصورة وتحديث اللوحة
+            image.src = src;
+        }
 
         image.onload = function () {
             canvas.width = image.width;
             canvas.height = image.height;
-            document.fonts.ready.then(updatePreview);
+            updatePreview();
         };
 
         function updatePreview() {
-            if (!selectedDesign) return;
-
             let nameText = document.getElementById("nameInput").value;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
-            let fontSize = 65; // Slightly larger font for better visibility
+            // إعدادات النص
+            let fontSize = 65; 
             ctx.font = `bold ${fontSize}px 'NotoKufiArabic'`;
-            
-            // 1. Set text color to White
-            ctx.fillStyle = "#ffffff"; 
-            
+            ctx.fillStyle = "#ffffff";
             ctx.textAlign = "center";
-            ctx.textBaseline = "bottom";
+            ctx.textBaseline = "middle";
 
-            let textX = canvas.width / 2;
+            // إضافة ظل للنص
+            ctx.shadowColor = "rgba(0, 0, 0, 0.4)";
+            ctx.shadowBlur = 5;
             
-            // 2. Moved up significantly (120px from the bottom)
-            // Increase this number to move it even higher
-            let textY = canvas.height - 180; 
-            
-            // Optional: Adding a soft shadow to make white text pop on light backgrounds
-            ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
-            ctx.shadowBlur = 4;
-            ctx.shadowOffsetX = 2;
-            ctx.shadowOffsetY = 2;
-
-            ctx.fillText(nameText, textX, textY);
+            // مكان النص (يمكنك تعديل الـ 180 حسب ارتفاع البطاقة الجديد)
+            ctx.fillText(nameText, canvas.width / 2, canvas.height - 180);
         }
 
         function generateCard() {
-            if (canvas.width === 0 || canvas.height === 0) {
-                alert("يرجى إنشاء المعاينة أولاً!");
-                return;
-            }
-
             let link = document.createElement("a");
             link.href = canvas.toDataURL("image/png", 1.0);
-            link.download = "Custom_Card.png";
-            document.body.appendChild(link);
+            link.download = "Eid_Card.png";
             link.click();
-            document.body.removeChild(link);
         }
+
+        // تشغيل التصميم الأول عند البدء
+        window.onload = () => {
+            const firstDesign = document.querySelector('.design-option');
+            selectDesign(firstDesign, firstDesign.src);
+        };
     </script>
 </body>
 </html>
