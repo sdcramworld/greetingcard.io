@@ -20,15 +20,14 @@
         }
 
         body {
-            /* جعل الارتفاع ثابتاً لمنع السكرول */
             height: 100vh;
             width: 100vw;
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: #ffffff; /* خلفية بيضاء بدون لون رمادي */
+            background-color: #ffffff;
             text-align: center;
-            overflow: hidden; /* منع السكرول نهائياً */
+            overflow: hidden;
             padding: 10px;
         }
 
@@ -38,25 +37,13 @@
             padding: 20px;
             background: white;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
             width: 100%;
             max-width: 600px;
-            color: black;
         }
 
-       
-        h2 {
-            font-size: 1.4rem;
-            margin-bottom: 8px;
-            color: #333;
-        }
-        h3 {
-            font-size: 0.9rem;
-            margin-bottom: 8px;
-            color: #333;
-        }
+        h2 { font-size: 1.4rem; margin-bottom: 8px; color: #333; }
+        h3 { font-size: 0.9rem; margin-bottom: 8px; color: #333; }
 
-        /* --- تنسيق معرض الصور --- */
         .design-selector {
             display: flex;
             justify-content: center;
@@ -65,7 +52,7 @@
         }
 
         .design-option {
-            width: 70px; /* حجم أصغر للخيارات لتوفير مساحة */
+            width: 70px;
             height: 100px;
             border-radius: 8px;
             cursor: pointer;
@@ -80,25 +67,19 @@
             box-shadow: 0 0 10px rgba(123, 222, 202, 0.5);
         }
 
-        /* --- تنسيق المعاينة --- */
         .preview {
-            flex: 1;
             display: flex;
-            align-items: center;
             justify-content: center;
             margin-bottom: 15px;
-            overflow: hidden;
         }
 
         .preview canvas {
             max-width: 100%;
-            max-height: 50vh; /* تحديد ارتفاع اللوحة لكي لا تسبب سكرول */
+            max-height: 50vh;
             border-radius: 10px;
             border: 1px solid #eee;
-            object-fit: contain;
         }
 
-        /* --- تنسيق النماذج --- */
         .card-form {
             display: flex;
             flex-direction: column;
@@ -106,11 +87,9 @@
         }
 
         .card-form input {
-                 margin-bottom: 10px;
+            margin-bottom: 10px;
             padding: 12px;
             width: 100%;
-            min-width: 150px;
-            border-radius: 8px;
             border-radius: 8px;
             border: 1px solid #ccc;
             font-size: 14px;
@@ -127,14 +106,12 @@
             cursor: pointer;
             font-size: 14px;
             font-weight: bold;
-            width: auto;
             min-width: 150px;
             transition: all 0.3s ease;
         }
 
         .card-form button:hover {
             background: #a9a9a9;
-            border-color: #888;
         }
     </style>
 </head>
@@ -142,16 +119,16 @@
 
     <div class="container">
         <h2>بطاقة عيد الأضحى <br> Eid Al-Adha</h2>
-        <h3>Select Design Card | اختر التصميم البطاقة </h3>
+        <h3>اختر تصميم البطاقة | Select Card Design</h3>
         
         <div class="design-selector" id="designSelector">
-            <img src="https://images.ctfassets.net/jrh3lrn7oql1/514XAQipKfC5tojDBSOssg/d36aca13ca3be5dd225def65f827a679/Eid_Al-Adha_2026_card_1.jpg" 
+            <img src="https://images.ctfassets.net/jrh3lrn7oql1/514XAQipKfC5tojDBSOssg/b0e30a81e5e86138d1a865c30d48d985/Eid_Alhajj_2026_card_-01.jpg" 
                  class="design-option active" 
-                 onclick="selectDesign(this, this.src)">
+                 onclick="selectDesign(this, this.src, 150, '#1a365d', 'right')">
             
-            <img src="https://images.ctfassets.net/jrh3lrn7oql1/5KQJReyJA5jXUsIroa1VEb/461effb16220eaf1891f309dd7829aca/Eid_Al-Adha_2026_card_2.jpg" 
+            <img src="https://images.ctfassets.net/jrh3lrn7oql1/5KQJReyJA5jXUsIroa1VEb/defce11fdbf15978427d9e32bb66581e/Eid_Alhajj_2026_card_-02.jpg" 
                  class="design-option" 
-                 onclick="selectDesign(this, this.src)">
+                 onclick="selectDesign(this, this.src, 150, '#1a365d', 'right')">
         </div>
 
         <div class="preview">
@@ -159,8 +136,8 @@
         </div>
 
         <div class="card-form">
-            <input type="text" id="nameInput" placeholder="ادخل اسمك | Enter your Name" oninput="updatePreview()">
-            <button onclick="generateCard()"> Download | تحميل البطاقة</button>
+            <input type="text" id="nameInput" placeholder="الاسم - المسمى الوظيفي | Name - Job Title" oninput="updatePreview()">
+            <button onclick="generateCard()">Download | تحميل البطاقة</button>
         </div>
     </div>
 
@@ -170,9 +147,18 @@
         let image = new Image();
         image.crossOrigin = "Anonymous";
 
-        function selectDesign(element, src) {
+        let currentY = 130;
+        let currentColor = "#1a365d";
+        let currentAlign = "right";
+
+        function selectDesign(element, src, yPos, color, align) {
             document.querySelectorAll('.design-option').forEach(img => img.classList.remove('active'));
             element.classList.add('active');
+            
+            currentY = yPos;
+            currentColor = color;
+            currentAlign = align;
+            
             image.src = src;
         }
 
@@ -183,18 +169,40 @@
         };
 
         function updatePreview() {
-            let nameText = document.getElementById("nameInput").value;
+            let fullText = document.getElementById("nameInput").value;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
-            let fontSize = 65; 
+            // --- إعدادات الخط (تم تكبير الحجم بناءً على طلبك) ---
+            let fontSize = 100; 
+            let lineHeight = 100; 
             ctx.font = `bold ${fontSize}px 'NotoKufiArabic'`;
-            ctx.fillStyle = "#000000";
-            ctx.textAlign = "center";
-            ctx.textBaseline = "middle";
+            ctx.fillStyle = currentColor;
+            ctx.textAlign = "right";
+            ctx.textBaseline = "bottom";
 
-            ctx.shadowColor = "transparent"; // إزالة الظل ليكون التصميم أنظف
-            ctx.fillText(nameText, canvas.width / 2, canvas.height - 180);
+            // --- الإحداثيات المستخرجة من صورك المرفقة ---
+            let marginRight = 200;   // المسافة من حافة اليمين لتجنب الأطراف
+            let marginBottom = 450; // رفعه عن القاع ليكون فوق نص "إحدى شركات الصندوق"
+
+            let lines = fullText.split("-");
+
+            lines.forEach((line, index) => {
+                // ترتيب الأسطر بحيث يكون الاسم في الأعلى والمسمى تحت
+                let yOffset = (lines.length - 1 - index) * lineHeight;
+                
+                // إضافة وضوح عالي للنص
+                ctx.shadowColor = "rgba(0, 0, 0, 0.1)";
+                ctx.shadowBlur = 3;
+
+                let xPos = canvas.width - marginRight;
+
+                ctx.fillText(
+                    line.trim(), 
+                    xPos, 
+                    canvas.height - marginBottom - yOffset
+                );
+            });
         }
 
         function generateCard() {
@@ -204,9 +212,12 @@
             link.click();
         }
 
+        // تشغيل التصميم الأول تلقائياً عند فتح الصفحة
         window.onload = () => {
             const firstDesign = document.querySelector('.design-option');
-            if(firstDesign) selectDesign(firstDesign, firstDesign.src);
+            if (firstDesign) {
+                selectDesign(firstDesign, firstDesign.src, 130, '#1a365d', 'right');
+            }
         };
     </script>
 </body>
