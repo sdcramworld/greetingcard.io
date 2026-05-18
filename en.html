@@ -136,7 +136,10 @@
         </div>
 
         <div class="card-form">
-            <input type="text" id="nameInput" placeholder="الاسم - المسمى الوظيفي | Name - Job Title" oninput="updatePreview()">
+            <input type="text" id="nameInput" placeholder="الاسم | Name" oninput="updatePreview()">
+    
+    <input type="text" id="jobInput" placeholder="المسمى الوظيفي | Job Title" oninput="updatePreview()">
+            
             <button onclick="generateCard()">Download | تحميل البطاقة</button>
         </div>
     </div>
@@ -169,41 +172,51 @@
         };
 
         function updatePreview() {
-            let fullText = document.getElementById("nameInput").value;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+    let nameValue = document.getElementById("nameInput").value;
+    let jobValue = document.getElementById("jobInput").value;
+    
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
-            // --- إعدادات الخط (تم تكبير الحجم بناءً على طلبك) ---
-            let fontSize = 80; 
-            let lineHeight = 100; 
-            ctx.font = `bold ${fontSize}px 'NotoKufiArabic'`;
-            ctx.fillStyle = currentColor;
-            ctx.textAlign = "right";
-            ctx.textBaseline = "bottom";
+    // --- إعدادات الخط (كبير وواضح) ---
+    let fontSize = 75; 
+    let lineHeight = 100; 
+    ctx.fillStyle = currentColor;
+    ctx.textAlign = "right";
+    ctx.textBaseline = "bottom";
 
-            // --- الإحداثيات المستخرجة من صورك المرفقة ---
-            let marginRight = 180;   // المسافة من حافة اليمين لتجنب الأطراف
-            let marginBottom = 450; // رفعه عن القاع ليكون فوق نص "إحدى شركات الصندوق"
+    // --- الإحداثيات بناءً على صورك المرفقة ---
+    let marginRight = 170;   // البعد عن الحافة اليمنى
+    let marginBottom = 450; // الارتفاع عن القاع ليتناسب مع التصميم
+    let xPos = canvas.width - marginRight;
 
-            let lines = fullText.split("-");
+    // مصفوفة تحتوي على النصوص (الاسم ثم المسمى)
+    let lines = [];
+    if (nameValue.trim() !== "") lines.push(nameValue);
+    if (jobValue.trim() !== "") lines.push(jobValue);
 
-            lines.forEach((line, index) => {
-                // ترتيب الأسطر بحيث يكون الاسم في الأعلى والمسمى تحت
-                let yOffset = (lines.length - 1 - index) * lineHeight;
-                
-                // إضافة وضوح عالي للنص
-                ctx.shadowColor = "rgba(0, 0, 0, 0.1)";
-                ctx.shadowBlur = 3;
-
-                let xPos = canvas.width - marginRight;
-
-                ctx.fillText(
-                    line.trim(), 
-                    xPos, 
-                    canvas.height - marginBottom - yOffset
-                );
-            });
+    lines.forEach((line, index) => {
+        // تحديد الترتيب: الاسم في الأعلى والمسمى في الأسفل
+        let yOffset = (lines.length - 1 - index) * lineHeight;
+        
+        // إعدادات الخط لكل سطر (يمكننا تصغير المسمى قليلاً إذا أردت)
+        if (index === 0 && lines.length > 1) {
+            ctx.font = `bold ${fontSize}px 'NotoKufiArabic'`; // الاسم عريض وكبير
+        } else {
+            ctx.font = `normal ${fontSize - 4}px 'NotoKufiArabic'`; // المسمى أنحف وأصغر قليلاً لجمالية التصميم
         }
+
+        // إضافة ظل خفيف للوضوح
+        ctx.shadowColor = "rgba(0, 0, 0, 0.1)";
+        ctx.shadowBlur = 3;
+
+        ctx.fillText(
+            line.trim(), 
+            xPos, 
+            canvas.height - marginBottom - yOffset
+        );
+    });
+}
 
         function generateCard() {
             let link = document.createElement("a");
