@@ -86,21 +86,29 @@
             direction: rtl;
         }
 
-        .card-form button {
-            padding: 12px 25px;
-            background: #ffffff;
-            color: white;
-            border: none;
-            border-radius: 8px;
+      .card-form button {
+            /* التنسيق الأساسي */
+            padding: 10px 30px;      /* مسافات داخلية متوازنة */
+            background: #e0e0e0;     /* لون رمادي فاتح */
+            color: #000000;          /* نص باللون الأسود */
+            border: 1px solid #ccc;  /* إطار بسيط لتعريف الحواف */
+            border-radius: 8px;      /* زوايا منحنية */
             cursor: pointer;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: bold;
-            width: 100%;
-            transition: background 0.3s;
+            
+            /* تعديل الحجم والعرض */
+            width: auto;             /* إلغاء العرض الكامل (100%) */
+            min-width: 150px;        /* تحديد أقل عرض ممكن لضمان شكل مرتب */
+            display: inline-block;   /* للسماح للزر بأخذ حجم محتواه فقط */
+            
+            transition: all 0.3s ease; /* تأثير ناعم عند الانتقال */
         }
 
         .card-form button:hover {
-            background: #218838;
+            background: #a9a9a9;     /* رمادي غامق عند مرور الماوس (Hover) */
+            color: #000000;          /* الحفاظ على لون النص أسود */
+            border-color: #888;      /* تغميق الإطار قليلاً عند الهوفر */
         }
     </style>
 </head>
@@ -127,8 +135,8 @@
         </div>
 
         <div class="card-form">
-            <input type="text" id="nameInput" placeholder="ادخل الاسم ليظهر على البطاقة" oninput="updatePreview()">
-            <button onclick="generateCard()">تحميل البطاقة بجودة عالية</button>
+            <input type="text" id="nameInput" placeholder="Enter your Name |  ادخل اسمك" oninput="updatePreview()">
+            <button onclick="generateCard()">تحميل البطاقة </button>
         </div>
     </div>
 
