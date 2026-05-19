@@ -113,6 +113,16 @@
         .card-form button:hover {
             background: #a9a9a9;
         }
+        /* استعلام وسائط مخصص ومحمي لشاشات اللابتوب المتوسطة والصغيرة */
+        @media screen and (min-width: 769px) and (max-width: 1024px) {
+            .container {
+                max-width: 420px; /* تصغير الحاوية بنسبة بسيطة ليظهر الفريم كاملاً */
+                padding: 15px;
+            }
+            .preview canvas {
+                max-height: 40vh; /* ضبط ارتفاع المعاينة ليناسب أبعاد الشاشة */
+            }
+        }
     </style>
 </head>
 <body>
