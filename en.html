@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>بطاقة التهنئة</title>
     <style>
-        /* إعدادات الخط والتصميم بقيت كما هي دون تغيير */
+        /* إعدادات الخط والتصميم العام للموقع بقيت ثابتة لحماية المظهر */
         @font-face {
             font-family: 'NotoKufiArabic';
             src: url('NotoKufiArabic-Bold.ttf') format('truetype');
@@ -133,18 +133,20 @@
         <h3>Select Card Design | اختر تصميم البطاقة</h3>
         
         <div class="design-selector" id="designSelector">
-            <!-- 
-                هنا قمنا بتعديل onclick لكي نرسل إحداثيات كل صورة:
-                الأرقام بالترتيب تعني:
-                (عنصر الصورة، رابط الصورة، المسافة من اليسار، المسافة من الأسفل، لون الخط، المحاذاة)
-            -->
             
-            <!-- الصورة الأولى -->
+            <!-- 
+                الصورة الأولى: جعلنا المعامل الأخير 'center' ليتوسط النص تلقائياً.
+                لاحظ أننا وضعنا المسافة من اليسار 0 لأن الكود سيحسب المنتصف تلقائياً، 
+                والرقم 820 هو الارتفاع المناسب لها من الأسفل.
+            -->
             <img src="https://images.ctfassets.net/jrh3lrn7oql1/514XAQipKfC5tojDBSOssg/94ce5db6f906244d151e2b4ed82a5784/Eid_Alhajj_2026_cards-01.jpg" 
                  class="design-option active" 
-                 onclick="selectDesign(this, this.src, 900, 820, '#1a365d', 'left')">
+                 onclick="selectDesign(this, this.src, 0, 820, '#1a365d', 'center')">
                  
-            <!-- الصورة الثانية (قمت بوضع أرقام مختلفة كمثال، يمكنك تعديلها لتناسب تصميمها) -->
+            <!-- 
+                الصورة الثانية: أبقينا المعامل الأخير 'left' لتظهر في جهة اليسار كما هي.
+                المسافة من اليسار 400 والارتفاع من الأسفل 600 (يمكنك تعديلها بحرية).
+            -->
             <img src="https://images.ctfassets.net/jrh3lrn7oql1/5KQJReyJA5jXUsIroa1VEb/388688e5a1569e61a59344fe39aff2c1/Eid_Al-Adha_2026_cards_-_01.jpg" 
                  class="design-option" 
                  onclick="selectDesign(this, this.src, 400, 600, '#1a365d', 'left')">
@@ -166,26 +168,22 @@
         let image = new Image();
         image.crossOrigin = "Anonymous";
 
-        // متغيرات جديدة لحفظ الإحداثيات لكل صورة نختارها
-        let currentMarginLeft = 900; // المسافة الافتراضية من اليسار للصورة الأولى
-        let currentMarginBottom = 820; // المسافة الافتراضية من الأسفل للصورة الأولى
+        // الذاكرة المؤقتة لحفظ إعدادات الصورة الحالية
+        let currentMarginLeft = 0; 
+        let currentMarginBottom = 820; 
         let currentColor = "#1a365d";
-        let currentAlign = "left"; 
+        let currentAlign = "center"; // جعلنا الوضع الافتراضي متناسباً مع الصورة الأولى (منتصف)
 
-        // تم تعديل الدالة لتستقبل المسافة من اليسار (marginLeft) والمسافة من الأسفل (marginBottom)
+        // دالة استقبال البيانات عند الضغط على أي صورة
         function selectDesign(element, src, marginLeft, marginBottom, color, align) {
-            // إزالة التحديد عن كل الصور
             document.querySelectorAll('.design-option').forEach(img => img.classList.remove('active'));
-            // إضافة التحديد للصورة المختارة
             element.classList.add('active');
             
-            // تحديث المتغيرات بناءً على الصورة المختارة
             currentMarginLeft = marginLeft;
             currentMarginBottom = marginBottom;
             currentColor = color;
             currentAlign = align;
             
-            // تغيير مصدر الصورة
             image.src = src;
         }
 
@@ -195,40 +193,46 @@
             updatePreview();
         };
 
+        // دالة تحديث اللوحة ورسم النص
         function updatePreview() {
             let nameValue = document.getElementById("nameInput").value;
             
-            // تنظيف وإعادة رسم الصورة
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
-            // إعدادات الخط
+            // إعدادات الخط الأساسية
             let fontSize = 100; 
             ctx.fillStyle = currentColor;
-            ctx.textAlign = currentAlign; 
+            ctx.textAlign = currentAlign; // ستأخذ قيمتها ديناميكياً ('center' أو 'left')
             ctx.textBaseline = "bottom";
 
-            // تحديد نقطة البداية لتكون من اليسار بناءً على المتغير الخاص بالصورة الحالية
-            let xPos = currentMarginLeft;
+            // --- 🛠️ الجزء المسؤول عن فصل وتحديد مكان النص لكل صورة 🛠️ ---
+            let xPos;
+            if (currentAlign === "center") {
+                // إذا كانت محاذاة الصورة الحالية هي المنتصف، نقوم بقسمة عرض الصورة بالكامل على 2
+                xPos = canvas.width / 2;
+            } else {
+                // إذا كانت محاذاة الصورة الحالية يسار، نعتمد على رقم المسافة الممرر للصورة
+                xPos = currentMarginLeft;
+            }
 
-            // إعدادات الخط للاسم فقط
             ctx.font = `bold ${fontSize}px 'NotoKufiArabic'`; 
 
-            // إضافة ظل خفيف للوضوح
+            // إضافة تأثير الظل الخفيف للجمالية والوضوح
             ctx.shadowColor = "rgba(0, 0, 0, 0.1)";
             ctx.shadowBlur = 3;
 
-            // رسم النص (الاسم) على الصورة إذا لم يكن الحقل فارغاً
+            // رسم الاسم إذا قام المستخدم بالكتابة ولم يترك الحقل فارغاً
             if (nameValue.trim() !== "") {
                 ctx.fillText(
                     nameValue.trim(), 
                     xPos, 
-                    // طرح المسافة من الأسفل الخاصة بالصورة الحالية من إجمالي ارتفاع الصورة
                     canvas.height - currentMarginBottom 
                 );
             }
         }
 
+        // دالة تحميل البطاقة كصورة بجودة كاملة
         function generateCard() {
             let link = document.createElement("a");
             link.href = canvas.toDataURL("image/png", 1.0);
@@ -236,12 +240,12 @@
             link.click();
         }
 
-        // تشغيل التصميم الأول تلقائياً عند فتح الصفحة
+        // تشغيل البطاقة الأولى وإعداداتها تلقائياً فور فتح الصفحة
         window.onload = () => {
             const firstDesign = document.querySelector('.design-option');
             if (firstDesign) {
-                // نمرر هنا الأرقام الافتراضية للصورة الأولى عند تحميل الصفحة
-                selectDesign(firstDesign, firstDesign.src, 750, 820, '#1a365d', 'left');
+                // نقوم بتمرير إعدادات السنتر للصورة الأولى لتظهر فوراً بشكل صحيح
+                selectDesign(firstDesign, firstDesign.src, 0, 820, '#1a365d', 'center');
             }
         };
     </script>
