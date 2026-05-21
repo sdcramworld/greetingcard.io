@@ -113,6 +113,7 @@
         .card-form button:hover {
             background: #a9a9a9;
         }
+        
         /* استعلام وسائط مخصص ومحمي لشاشات اللابتوب المتوسطة والصغيرة */
         @media screen and (min-width: 769px) and (max-width: 1024px) {
             .container {
@@ -132,15 +133,13 @@
         <h3>Select Card Design | اختر تصميم البطاقة</h3>
         
         <div class="design-selector" id="designSelector">
-               <img src="https://images.ctfassets.net/jrh3lrn7oql1/5KQJReyJA5jXUsIroa1VEb/fedc452de3db7fc9d32441df3a89bb48/Eid_Al-Adha_2026_card-02.jpg" 
+               <img src="https://images.ctfassets.net/jrh3lrn7oql1/5KQJReyJA5jXUsIroa1VEb/e76782c07848bb769f2f83814f3f9669/Eid_Al-Adha_2026_cards_-_01.jpg" 
                  class="design-option" 
-                 onclick="selectDesign(this, this.src, 150, '#1a365d', 'right')">
+                 onclick="selectDesign(this, this.src, 150, '#1a365d', 'left')">
            
-            <img src="https://images.ctfassets.net/jrh3lrn7oql1/514XAQipKfC5tojDBSOssg/805ab860d807c237afbdcb1ca6dd4a63/Eid_Al-Adha_2026_card-01.jpg" 
+            <img src="https://images.ctfassets.net/jrh3lrn7oql1/514XAQipKfC5tojDBSOssg/efb3d9f7c0d64b35782b2a77dda16540/Eid_Al-Adha_2026_cards_-_02.jpg" 
                  class="design-option active" 
-                 onclick="selectDesign(this, this.src, 150, '#1a365d', 'right')">
-            
-           
+                 onclick="selectDesign(this, this.src, 150, '#1a365d', 'left')">
         </div>
 
         <div class="preview">
@@ -149,9 +148,7 @@
 
         <div class="card-form">
             <input type="text" id="nameInput" placeholder="الاسم | Name" oninput="updatePreview()">
-    
-    <input type="text" id="jobInput" placeholder="المسمى الوظيفي | Job Title" oninput="updatePreview()">
-            
+            <!-- تم إزالة حقل المسمى الوظيفي من هنا -->
             <button onclick="generateCard()">Download | تحميل البطاقة</button>
         </div>
     </div>
@@ -164,7 +161,7 @@
 
         let currentY = 130;
         let currentColor = "#1a365d";
-        let currentAlign = "right";
+        let currentAlign = "left"; // تم تغيير المحاذاة الافتراضية إلى اليسار
 
         function selectDesign(element, src, yPos, color, align) {
             document.querySelectorAll('.design-option').forEach(img => img.classList.remove('active'));
@@ -184,51 +181,44 @@
         };
 
         function updatePreview() {
-    let nameValue = document.getElementById("nameInput").value;
-    let jobValue = document.getElementById("jobInput").value;
-    
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+            let nameValue = document.getElementById("nameInput").value;
+            // تم إزالة قراءة قيمة المسمى الوظيفي
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
-    // --- إعدادات الخط (كبير وواضح) ---
-    let fontSize = 75; 
-    let lineHeight = 100; 
-    ctx.fillStyle = currentColor;
-    ctx.textAlign = "right";
-    ctx.textBaseline = "bottom";
+            // --- إعدادات الخط (كبير وواضح) ---
+            let fontSize = 200; 
+            ctx.fillStyle = currentColor;
+            ctx.textAlign = currentAlign; // ستكون "left" بناءً على الإعدادات فوق
+            ctx.textBaseline = "bottom";
 
-    // --- الإحداثيات بناءً على صورك المرفقة ---
-    let marginRight = 170;   // البعد عن الحافة اليمنى
-    let marginBottom = 450; // الارتفاع عن القاع ليتناسب مع التصميم
-    let xPos = canvas.width - marginRight;
+            // --- الإحداثيات لظهور النص في جهة اليسار ---
+            // يمكنك تغيير الرقم 170 لتعديل المسافة بين الاسم وحافة الصورة اليسرى
+            let marginLeft = 700;   
+            
+            // يمكنك تغيير الرقم 450 لرفع أو تنزيل الاسم (كلما زاد الرقم ارتفع الاسم لأعلى)
+            let marginBottom = 820; 
+            
+            // تحديد نقطة البداية لتكون من اليسار
+            let xPos = marginLeft;
 
-    // مصفوفة تحتوي على النصوص (الاسم ثم المسمى)
-    let lines = [];
-    if (nameValue.trim() !== "") lines.push(nameValue);
-    if (jobValue.trim() !== "") lines.push(jobValue);
-
-    lines.forEach((line, index) => {
-        // تحديد الترتيب: الاسم في الأعلى والمسمى في الأسفل
-        let yOffset = (lines.length - 1 - index) * lineHeight;
-        
-        // إعدادات الخط لكل سطر (يمكننا تصغير المسمى قليلاً إذا أردت)
-        if (index === 0 && lines.length > 1) {
+            // إعدادات الخط للاسم فقط
             ctx.font = `bold ${fontSize}px 'NotoKufiArabic'`; // الاسم عريض وكبير
-        } else {
-            ctx.font = `normal ${fontSize - 4}px 'NotoKufiArabic'`; // المسمى أنحف وأصغر قليلاً لجمالية التصميم
+
+            // إضافة ظل خفيف للوضوح
+            ctx.shadowColor = "rgba(0, 0, 0, 0.1)";
+            ctx.shadowBlur = 3;
+
+            // رسم النص (الاسم) على الصورة إذا لم يكن الحقل فارغاً
+            if (nameValue.trim() !== "") {
+                ctx.fillText(
+                    nameValue.trim(), 
+                    xPos, 
+                    canvas.height - marginBottom
+                );
+            }
         }
-
-        // إضافة ظل خفيف للوضوح
-        ctx.shadowColor = "rgba(0, 0, 0, 0.1)";
-        ctx.shadowBlur = 3;
-
-        ctx.fillText(
-            line.trim(), 
-            xPos, 
-            canvas.height - marginBottom - yOffset
-        );
-    });
-}
 
         function generateCard() {
             let link = document.createElement("a");
@@ -241,7 +231,8 @@
         window.onload = () => {
             const firstDesign = document.querySelector('.design-option');
             if (firstDesign) {
-                selectDesign(firstDesign, firstDesign.src, 130, '#1a365d', 'right');
+                // تم التأكد من إرسال 'left' كمعامل هنا ليظل النص يساراً
+                selectDesign(firstDesign, firstDesign.src, 130, '#1a365d', 'left');
             }
         };
     </script>
