@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>بطاقة التهنئة</title>
     <style>
+        /* إعدادات الخط والتصميم بقيت كما هي دون تغيير */
         @font-face {
             font-family: 'NotoKufiArabic';
             src: url('NotoKufiArabic-Bold.ttf') format('truetype');
@@ -20,9 +21,9 @@
         }
 
         body {
-            min-height: 100vh;
+            height: 100vh;
+            width: 100vw;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             background-color: #ffffff;
@@ -37,118 +38,212 @@
             padding: 20px;
             background: white;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
             width: 100%;
             max-width: 600px;
-            color: black;
+        }
+
+        h2 { font-size: 1.4rem; margin-bottom: 8px; color: #333; }
+        h3 { font-size: 0.9rem; margin-bottom: 8px; color: #333; }
+
+        .design-selector {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .design-option {
+            width: 70px;
+            height: 100px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            object-fit: cover;
+        }
+
+        .design-option.active {
+            border-color: #7BDECA;
+            transform: scale(1.05);
+            box-shadow: 0 0 10px rgba(123, 222, 202, 0.5);
+        }
+
+        .preview {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .preview canvas {
+            max-width: 100%;
+            max-height: 50vh;
+            border-radius: 10px;
+            border: 1px solid #eee;
+        }
+
+        .card-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .card-form input {
             margin-bottom: 10px;
-            padding: 20px;
+            padding: 12px;
             width: 100%;
-            border-radius: 5px;
+            border-radius: 8px;
             border: 1px solid #ccc;
-            font-size: 16px;
+            font-size: 14px;
             text-align: center;
-            color: black;
             direction: rtl;
         }
 
         .card-form button {
-            all: unset;
-            padding: 10px 20px;
-            background: #eee;
+            padding: 10px 25px;
+            background: #e0e0e0;
+            color: #000000;
             border: 1px solid #ccc;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
-            margin-top: 10px;
-            font-size: 16px;
-            text-align: center;
-            margin-bottom: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            min-width: 150px;
+            transition: all 0.3s ease;
         }
 
-        .preview canvas {
-            width: 100%;
-            height: auto;
-            border-radius: 10px;
-            margin-bottom: 20px;
+        .card-form button:hover {
+            background: #a9a9a9;
+        }
+        
+        @media screen and (min-width: 769px) and (max-width: 1024px) {
+            .container {
+                max-width: 450px;
+                padding: 15px;
+            }
+            .preview canvas {
+                max-height: 40vh;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>بطاقة عيد الفطر</h1>
-        <h1>Eid Al-Fitr Card</h1>
 
-        <div class="preview" id="previewContainer">
+    <div class="container">
+        <h2>بطاقة عيد الأضحى <br> Eid Al-Adha</h2>
+        <h3>Select Card Design | اختر تصميم البطاقة</h3>
+        
+        <div class="design-selector" id="designSelector">
+            <!-- 
+                هنا قمنا بتعديل onclick لكي نرسل إحداثيات كل صورة:
+                الأرقام بالترتيب تعني:
+                (عنصر الصورة، رابط الصورة، المسافة من اليسار، المسافة من الأسفل، لون الخط، المحاذاة)
+            -->
+            
+            <!-- الصورة الأولى -->
+            <img src="https://images.ctfassets.net/jrh3lrn7oql1/514XAQipKfC5tojDBSOssg/efb3d9f7c0d64b35782b2a77dda16540/Eid_Al-Adha_2026_cards_-_02.jpg" 
+                 class="design-option active" 
+                 onclick="selectDesign(this, this.src, 750, 820, '#1a365d', 'left')">
+                 
+            <!-- الصورة الثانية (قمت بوضع أرقام مختلفة كمثال، يمكنك تعديلها لتناسب تصميمها) -->
+            <img src="https://images.ctfassets.net/jrh3lrn7oql1/5KQJReyJA5jXUsIroa1VEb/388688e5a1569e61a59344fe39aff2c1/Eid_Al-Adha_2026_cards_-_01.jpg" 
+                 class="design-option" 
+                 onclick="selectDesign(this, this.src, 400, 600, '#1a365d', 'left')">
+        </div>
+
+        <div class="preview">
             <canvas id="previewCanvas"></canvas>
         </div>
 
         <div class="card-form">
-            <input type="text" id="nameInput" placeholder=" ادخل اسمك | Enter your Name " oninput="updatePreview()">
-            <button onclick="generateCard()">Download Card | تحميل البطاقة</button>
+            <input type="text" id="nameInput" placeholder="الاسم | Name" oninput="updatePreview()">
+            <button onclick="generateCard()">Download | تحميل البطاقة</button>
         </div>
     </div>
 
     <script>
-        let selectedDesign = "https://images.ctfassets.net/jrh3lrn7oql1/6J4gHRdUIsSBnTQrsGnkgm/ec5738188d97079d142fe816768e8378/Eid_Alfiter_cards.jpg";
         let canvas = document.getElementById("previewCanvas");
         let ctx = canvas.getContext("2d");
         let image = new Image();
         image.crossOrigin = "Anonymous";
-        image.src = selectedDesign;
+
+        // متغيرات جديدة لحفظ الإحداثيات لكل صورة نختارها
+        let currentMarginLeft = 750; // المسافة الافتراضية من اليسار للصورة الأولى
+        let currentMarginBottom = 820; // المسافة الافتراضية من الأسفل للصورة الأولى
+        let currentColor = "#1a365d";
+        let currentAlign = "left"; 
+
+        // تم تعديل الدالة لتستقبل المسافة من اليسار (marginLeft) والمسافة من الأسفل (marginBottom)
+        function selectDesign(element, src, marginLeft, marginBottom, color, align) {
+            // إزالة التحديد عن كل الصور
+            document.querySelectorAll('.design-option').forEach(img => img.classList.remove('active'));
+            // إضافة التحديد للصورة المختارة
+            element.classList.add('active');
+            
+            // تحديث المتغيرات بناءً على الصورة المختارة
+            currentMarginLeft = marginLeft;
+            currentMarginBottom = marginBottom;
+            currentColor = color;
+            currentAlign = align;
+            
+            // تغيير مصدر الصورة
+            image.src = src;
+        }
 
         image.onload = function () {
             canvas.width = image.width;
             canvas.height = image.height;
-            document.fonts.ready.then(updatePreview);
+            updatePreview();
         };
 
         function updatePreview() {
-            if (!selectedDesign) return;
-
-            let nameText = document.getElementById("nameInput").value;
+            let nameValue = document.getElementById("nameInput").value;
+            
+            // تنظيف وإعادة رسم الصورة
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
-            let fontSize = 65; // Slightly larger font for better visibility
-            ctx.font = `bold ${fontSize}px 'NotoKufiArabic'`;
-            
-            // 1. Set text color to White
-            ctx.fillStyle = "#ffffff"; 
-            
-            ctx.textAlign = "center";
+            // إعدادات الخط
+            let fontSize = 100; 
+            ctx.fillStyle = currentColor;
+            ctx.textAlign = currentAlign; 
             ctx.textBaseline = "bottom";
 
-            let textX = canvas.width / 2;
-            
-            // 2. Moved up significantly (120px from the bottom)
-            // Increase this number to move it even higher
-            let textY = canvas.height - 180; 
-            
-            // Optional: Adding a soft shadow to make white text pop on light backgrounds
-            ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
-            ctx.shadowBlur = 4;
-            ctx.shadowOffsetX = 2;
-            ctx.shadowOffsetY = 2;
+            // تحديد نقطة البداية لتكون من اليسار بناءً على المتغير الخاص بالصورة الحالية
+            let xPos = currentMarginLeft;
 
-            ctx.fillText(nameText, textX, textY);
+            // إعدادات الخط للاسم فقط
+            ctx.font = `bold ${fontSize}px 'NotoKufiArabic'`; 
+
+            // إضافة ظل خفيف للوضوح
+            ctx.shadowColor = "rgba(0, 0, 0, 0.1)";
+            ctx.shadowBlur = 3;
+
+            // رسم النص (الاسم) على الصورة إذا لم يكن الحقل فارغاً
+            if (nameValue.trim() !== "") {
+                ctx.fillText(
+                    nameValue.trim(), 
+                    xPos, 
+                    // طرح المسافة من الأسفل الخاصة بالصورة الحالية من إجمالي ارتفاع الصورة
+                    canvas.height - currentMarginBottom 
+                );
+            }
         }
 
         function generateCard() {
-            if (canvas.width === 0 || canvas.height === 0) {
-                alert("يرجى إنشاء المعاينة أولاً!");
-                return;
-            }
-
             let link = document.createElement("a");
             link.href = canvas.toDataURL("image/png", 1.0);
-            link.download = "Custom_Card.png";
-            document.body.appendChild(link);
+            link.download = "Eid_Card.png";
             link.click();
-            document.body.removeChild(link);
         }
+
+        // تشغيل التصميم الأول تلقائياً عند فتح الصفحة
+        window.onload = () => {
+            const firstDesign = document.querySelector('.design-option');
+            if (firstDesign) {
+                // نمرر هنا الأرقام الافتراضية للصورة الأولى عند تحميل الصفحة
+                selectDesign(firstDesign, firstDesign.src, 750, 820, '#1a365d', 'left');
+            }
+        };
     </script>
 </body>
 </html>
